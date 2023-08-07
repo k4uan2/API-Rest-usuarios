@@ -42,6 +42,40 @@ class UserController{
 
 
     };
+
+
+    async edit(req, res){
+      let {id, name, email, role} = req.body;
+
+      let response = await User.update(id, name, email, role);
+      if(response != undefined){
+        if(response.status){
+          res.status(200);
+          res.json({status: response.status})
+        }else{
+          res.status(406);
+          res.json({err: response.err})
+        }
+      }else{
+        res.status(406);
+        res.json({status: response.status, err: response.err})
+      }
+    }
+
+
+    async remove(req, res){
+      let id = req.params.id;
+
+      let response = await User.delete(id);
+
+      if(response.status){
+        res.status(200);
+        res.send("Usuário deletado com sucesso!")
+      }else{
+        res.status(406);
+        res.json({err: response.err})
+      }
+    }
     
   };
 
