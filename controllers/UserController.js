@@ -1,7 +1,24 @@
 let User = require("../models/User")
 
 class UserController{
-  async index(req, res){}
+  async index(req, res){
+    let users = await User.findAll()
+    res.json(users)
+  }
+
+  async findUser(req, res){
+    let id = req.params.id;
+
+    let user = await User.findById(id)
+
+    if(user == undefined){
+      res.status(404);
+      res.json({err: "Usuário não encontrado!"})
+    }else{
+      res.json(user)
+    }
+
+  }
 
   async create(req, res){
     var {name, email, password} = req.body
